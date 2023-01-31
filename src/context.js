@@ -16,11 +16,12 @@ const AppProvider = ({ children }) => {
     try {
       const res = await axios.get(url);
 
-      if (DataTransfer.Response === 'True') {
-        setMovies(res.Search);
+      if (res.data.Response === 'True') {
+        setMovies(res.data.Search);
         setError({ show: false, msg: '' });
-      } else setError({ show: true, msg: res.Error });
-      console.log(res);
+      } else setError({ show: true, msg: res.data.Error });
+
+      console.log(error.msg);
       setIsLoading(false);
     } catch (error) {
       console.log(error);
@@ -32,7 +33,7 @@ const AppProvider = ({ children }) => {
   }, [query]);
 
   return (
-    <AppContext.Provider value={{ isLoading, Error, movies, setQuery, query }}>
+    <AppContext.Provider value={{ isLoading, error, movies, setQuery, query }}>
       {children}
     </AppContext.Provider>
   );
